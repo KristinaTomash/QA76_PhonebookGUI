@@ -14,10 +14,62 @@ dependencies {
     implementation("org.testng:testng:7.12.0")
 
     implementation("io.github.bonigarcia:webdrivermanager:6.3.3")
+    //testImplementation("org.testng:testng:7.12.0")
 
 
 }
 
+//test {
+//    useTestNG()
+//    if(project.hasProperty("browser")){
+//        systemProperty "browser",project.hasProperty("browser")
+//    }
+//}
+
+
 test {
     useTestNG()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+    if (project.hasProperty("browser")) {
+        systemProperty "browser", browser
+    }
+}
+//OLD
+
+task qa(type:Test){
+//        testClassesDirs = sourceSets.test.output.classesDirs
+//         classpath = sourceSets.test.runtimeClasspath
+    useTestNG(){
+        suites'src/test/resources/testng.xml'
+    }
+    if (project.hasProperty("browser")) {
+        systemProperty "browser", browser
+    }
+}
+
+//NEW
+//def registerTask(String tackName,String suitePath){
+//    tasks.register(tackName,Test){
+//        useTestNG(){
+//            suites suitePath
+//        }
+//        if (project.hasProperty("browser")) {
+//            systemProperty "browser", browser
+//        }
+//    }
+//}
+//registerTask('quick','src/test/resources/testng.xml')
+
+task qa1(type:Test){
+//        testClassesDirs = sourceSets.test.output.classesDirs
+//         classpath = sourceSets.test.runtimeClasspath
+    useTestNG(){
+        suites'src/test/resources/regression.xml'
+    }
+    if (project.hasProperty("browser")) {
+        systemProperty "browser", browser
+    }
 }
